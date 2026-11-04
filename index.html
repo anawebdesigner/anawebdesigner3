@@ -403,7 +403,7 @@
         width: auto;
         inset-inline: 6vw!important;
         top: 95vh;
-        top: calc(var(--vh, 1svh) * 95);
+        top: calc((100svh + 100lvh) / 2 * .96); /* stable: no jump when the URL bar collapses */
         bottom: auto;
         transform: translateY(-100%);
       }
@@ -1163,6 +1163,16 @@
 
     #end {
       width: min(36vw,520px);
+    }
+
+    /* desktop: hero texts sit a bit below center */
+    @media (min-width: 761px) {
+      .beat[data-hero] {
+        top: 58%;
+      }
+      .beat:not([data-hero]) {
+        top: 64%;
+      }
     }
 
     /* ============================================================
@@ -3306,17 +3316,6 @@
     tgt = tm > 0 ? cl(scrollY / tm) : 0;
   }
   addEventListener('scroll', rd, { passive: true });
-  /* --- real visible height (mobile URL bar aware) so mobile headings sit near the bottom of the screen --- */
-  /* updated only when the width changes (rotation/resize), NOT when the URL bar collapses on scroll -> no jumping */
-  let vhW = 0;
-  const setVh = () => {
-    if (innerWidth === vhW) return;
-    vhW = innerWidth;
-    document.documentElement.style.setProperty('--vh', (innerHeight / 100) + 'px');
-  };
-  setVh();
-  addEventListener('resize', setVh);
-  addEventListener('orientationchange', () => { vhW = 0; setTimeout(setVh, 300); });
   addEventListener('resize', size);
   addEventListener('pointermove', e => {
     px = e.clientX;
