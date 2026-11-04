@@ -2755,7 +2755,7 @@
        ============================================================ */
     @keyframes fadeonly { from { opacity: 0; } }
     @media (max-width: 760px) {
-      .track { height: 360vh; } /* <- mobile hero scroll length (was 800vh). Smaller = hero ends sooner */
+      .track { height: 280vh; } /* <- mobile hero scroll length (was 800vh). Smaller = hero ends sooner */
       /* hero image: full-bleed, no darkened/faded edges */
       .vig { display: none; }
       .beat::before { display: none; }
@@ -3344,13 +3344,7 @@
   let tm = 0;
   function rd() {
     if (tm <= 0) { tgt = 0; return; }
-    if (mob) {
-      /* mobile: first two scenes keep their pace, the last scene -> classes handoff takes less scroll */
-      const k = 2 * vh, y = scrollY;
-      tgt = cl(y < k ? y / k * (2 / 3) : 2 / 3 + (y - k) / Math.max(1, tm - k) / 3);
-    } else {
-      tgt = cl(scrollY / tm);
-    }
+    tgt = cl(scrollY / tm);
   }
   addEventListener('scroll', rd, { passive: true });
   addEventListener('resize', size);
