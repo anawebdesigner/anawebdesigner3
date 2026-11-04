@@ -1173,6 +1173,9 @@
       .beat:not([data-hero]) {
         top: 64%;
       }
+      #end {
+        top: 56%;
+      }
     }
 
     /* ============================================================
@@ -2187,7 +2190,7 @@
       display: block;
       width: 100%;
       height: auto;
-      filter: drop-shadow(0 0 46px rgba(170,205,255,.22));
+      filter: brightness(.8) contrast(.94) saturate(.9) drop-shadow(0 0 46px rgba(170,205,255,.16));
     }
 
     @keyframes fl {
@@ -3378,12 +3381,8 @@
       else if (i == ci + 1) {
         op = Math.max(fi, p > .3 ? .01 : 0);
       }
-      else if (i == ci - 1) {
-        op = p < .4 ? .01 : 0;
-      }
-      if (wm > 0 && op <= 0) {
-        op = .01;
-      }
+      /* previous scene is fully hidden (no faint ghost of the astronaut over the next image) */
+
       el.style.opacity = op;
       el.style.visibility = op > 0 ? 'visible' : 'hidden';
       if (op <= 0) {
