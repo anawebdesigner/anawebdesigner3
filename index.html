@@ -2770,6 +2770,19 @@
       .cls.rv { transition: opacity .5s var(--ease); }
       html { -webkit-text-size-adjust: 100%; }
     }
+  
+    /* mobile hero text: plays on its own (CSS transition) instead of per-frame writes */
+    @media (max-width: 759px) {
+      .beat .w { transition: opacity .45s var(--ease) calc(var(--i, 0) * 38ms); }
+      .beat .fd { transition: opacity .5s var(--ease) .3s; }
+      .beat.tb .w, .beat.tb .fd { opacity: 1; }
+      .beat:not(.tb) .w, .beat:not(.tb) .fd { transition: opacity .25s linear; }
+    }
+  
+    @media (max-width: 759px) {
+      .st.js .w { transition: opacity .5s var(--ease) calc(min(var(--i, 0), 28) * 24ms); }
+      .st.js.tb .w { opacity: 1; }
+    }
   </style>
   <style id="assets">
     /* Embedded fonts */
@@ -3269,7 +3282,7 @@
     ld.classList.add('off');
     setTimeout(() => ld.remove(), 700);
   }
-  Promise.all([...imgs.map(i => i.decode ? i.decode().catch(() => 0) : 0), document.fonts ? document.fonts.ready : 0]).then(() => setTimeout(hideLd, Math.max(0, 900 - (performance.now() - tL))));
+  Promise.all([...imgs.slice(0, 1).map(i => i.decode ? i.decode().catch(() => 0) : 0), document.fonts ? document.fonts.ready : 0]).then(() => setTimeout(hideLd, Math.max(0, 500 - (performance.now() - tL))));
   setTimeout(hideLd, 4500);
 
   /* --- RINGS drawn around the focal points --- */
@@ -3297,6 +3310,7 @@
     el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="m"><span class="w">${w}</span></span>`).join(' ');
   });
   const beats = $$('.beat').map(el => ({ el, r: JSON.parse(el.dataset.r), hero: 'hero' in el.dataset, w: [...el.querySelectorAll('.w')], f: [...el.querySelectorAll('.fd')], c: el.querySelector('.count') }));
+  beats.forEach(b => b.w.forEach((w, i) => w.style.setProperty('--i', i)));
   let vw, vh, W, H, L, T, mob, cv = $('#stars'), cx = cv.getContext('2d'), dpr = 1;
 
   /* --- LAYOUT - measure sizes and place the moon (recomputed on resize) --- */
@@ -3436,7 +3450,7 @@
         el.style.setProperty('--ro', cl((pp - .1) * 3) * (1 - fo));
       }
     });
-    $('#bar').style.transform = `scaleY(${P})`;
+    (window._bar || (window._bar = $('#bar'))).style.transform = `scaleY(${P})`;
   }
 
   /* --- HERO TEXT - animates words in and out depending on scroll progress --- */
@@ -3457,13 +3471,14 @@
         return;
       }
       b.k = k;
-      b.w.forEach((w, i) => {
+      if (mob) { const t = E > .02 && X < .02; if (b.tb !== t) { b.tb = t; b.el.classList.toggle('tb', t); } }
+      if (!mob) b.w.forEach((w, i) => {
         const I = sm(cl((E * (n + 2.5) - i) / 2.5)), O = sm(cl((X * (n + 2.5) - i) / 2.5)), v = I * (1 - O);
         w.style.opacity = v;
         w.style.filter = mob ? '' : `blur(${(1 - v) * 9}px)`;
         w.style.transform = mob ? '' : `translateY(${(1 - I) * .35 - O * .35}em)`;
       });
-      b.f.forEach(f => {
+      if (!mob) b.f.forEach(f => {
         const v = sm(cl(E * 1.5 - .35)) * (1 - sm(X));
         f.style.opacity = v;
         f.style.filter = mob ? '' : `blur(${(1 - v) * 6}px)`;
@@ -3523,7 +3538,7 @@
 
   /* --- Astronaut follows the mouse (desktop) --- */
   function astroPull() {
-    if (RM || !apl || +scenes[1].style.opacity < .03) {
+    if (RM || !FINE || !apl || +scenes[1].style.opacity < .03) {
       return;
     }
     let tx = 0, ty = 0, tr = 0;
@@ -3551,7 +3566,7 @@
       dirty = true;
     }
     intro = ldDone ? cl((now - t0) / 1800) : 0;
-    cur = RM ? tgt : cur + (tgt - cur) * (mob ? 1 - Math.exp(-dt / 95) : .075);
+    cur = RM ? tgt : cur + (tgt - cur) * (mob ? 1 : 1 - Math.exp(-dt / 70));
     if (Math.abs(tgt - cur) < 1e-5) {
       cur = tgt;
     }
@@ -3584,10 +3599,10 @@
     }
     astroPull();
     routeTick();
-    if (!mob) {
+    if (!mob && scrollY < tm + vh && (vel > 2e-4 || (fc++ & 1))) {
       stars(vel, d);
     }
-    magnet(endv);
+    if (FINE) magnet(endv);
     dots();
     if (FINE && !mob) {
       sx = lp(sx, mx, .06);
@@ -3645,9 +3660,11 @@
     el.classList.add('js');
     return { el, ws, top: 0, h: 0, last: -1 };
   });
-  let rY = 0, rS = 0, rVis = false, rOn = !RM;
+  sts.forEach(s => s.ws.forEach((w, i) => w.style.setProperty('--i', i)));
+  let rY = 0, rS = 0, rVis = false, rOn = !RM, rTop = 0;
   function rMeasure() {
     const b = route.getBoundingClientRect().top;
+    rTop = b + scrollY;
     sts.forEach(s => {
       const r = s.el.getBoundingClientRect();
       s.top = r.top - b;
@@ -3660,6 +3677,7 @@
       return;
     }
     s.last = k;
+    if (mob) { const on = E > .02; if (s.tb !== on) { s.tb = on; s.el.classList.toggle('tb', on); } return; }
     const n = s.ws.length, K = 7;
     s.ws.forEach((w, i) => {
       const v = sm(cl((E * (n + K) - i) / K));
@@ -3672,8 +3690,8 @@
     if (!rVis) {
       return;
     }
-    const Y = vh * (mob ? .8 : .72) - route.getBoundingClientRect().top;
-    rS = rOn ? lp(rS, Y, .07) : Y;
+    const Y = vh * (mob ? .8 : .72) - (rTop - scrollY);
+    rS = rOn && !mob ? lp(rS, Y, .07) : Y;
     if (Math.abs(rS - Y) < .4) {
       rS = Y;
     }
@@ -3765,13 +3783,14 @@
   const crm = $('.b-cream');
 
   /* --- NAV TONE - light bar over the cream section --- */
-  function navTone() {
-    const r = crm.getBoundingClientRect();
-    nav.classList.toggle('lt', r.top <= 58 && r.bottom >= -10);
-  }
+  let crmT = 0, crmB = 0;
+  function crmMeasure() { const r = crm.getBoundingClientRect(); crmT = r.top + scrollY; crmB = r.bottom + scrollY; navTone(); }
+  function navTone() { const y = scrollY; nav.classList.toggle('lt', crmT - y <= 58 && crmB - y >= -10); }
   addEventListener('scroll', navTone, { passive: true });
-  addEventListener('resize', navTone);
-  navTone();
+  addEventListener('resize', crmMeasure);
+  addEventListener('load', crmMeasure);
+  if (document.fonts) document.fonts.ready.then(crmMeasure);
+  crmMeasure();
 
   /* --- MAP animation - starts when the card becomes visible --- */
   const mc = $('#mapcard');
