@@ -2783,6 +2783,10 @@
       .st.js .w { transition: opacity .5s var(--ease) calc(min(var(--i, 0), 28) * 24ms); }
       .st.js.tb .w { opacity: 1; }
     }
+  
+    @media (max-width: 759px) {
+      .astro img { filter: brightness(.8) contrast(.94) saturate(.9); }
+    }
   </style>
   
 <style id="assets">
@@ -3273,7 +3277,7 @@
     $$('img[data-hi]').forEach(i => i.src = i.dataset.hi);
   }
   const scenes = $$('.scene');
-  let lc = -1, endv = 0, dirty = true, wm = 0, fc = 0;
+  let lc = -1, endv = 0, dirty = true, wm = 0, fc = 0, zMin = 1;
   const imgs = $$('.scene img');
   imgs.forEach(i => i.decoding = 'async');
   const ld = $('#ld'), tL = performance.now();
@@ -3305,7 +3309,7 @@
   let mring;
   SC.forEach((o, i) => {
     scenes[i].style.transformOrigin = `${o.x * 100}% ${o.y * 100}%`;
-    if (!o.noring) {
+    if (!o.noring && innerWidth >= 760) {
       const d = ring(scenes[i], o.x, o.y, o.r, o.tag);
       if (!i) {
         mring = d;
@@ -3352,6 +3356,7 @@
     L = (vw - W) / 2;
     T = (vh - H) / 2;
     mob = vw < 760;
+    zMin = mob ? Math.max(1, vw / (vh * 941 / 1672 * 1.12) * 1.03) : 1;
     dpr = Math.min(devicePixelRatio || 1, mob ? 1.5 : 2);
     cv.width = vw * dpr;
     cv.height = vh * dpr;
@@ -3411,7 +3416,7 @@
 
   /* --- Zoom/pan maths for one scene at progress pp (0..1) --- */
   function st(i, pp) {
-    const o = SC[i], k = ez(pp), zm = cl(.27 * vh / (o.r * W), 1.25, mob && o.zmM ? o.zmM : o.zm), Ox = L + o.x * W, Oy = T + o.y * H, tX = mob ? .5 * vw : (o.tx || .32) * vw, tY = mob ? .34 * vh : .5 * vh, z = lp(1, zm, k);
+    const o = SC[i], k = ez(pp), zm = cl(.27 * vh / (o.r * W), 1.25, mob && o.zmM ? o.zmM : o.zm), Ox = L + o.x * W, Oy = T + o.y * H, tX = mob ? .5 * vw : (o.tx || .32) * vw, tY = mob ? .34 * vh : .5 * vh, z0 = mob && i === 0 ? zMin : 1, z = lp(z0, Math.max(zm, z0), k);
     let dx = lp(mob ? cl(.5 * vw - Ox, L, -L) : 0, tX - Ox, k), dy = lp(0, tY - Oy, k);
     dx = cl(dx, vw - Ox - z * (L + W - Ox), -Ox - z * (L - Ox));
     dy = cl(dy, vh - Oy - z * (T + H - Oy), -Oy - z * (T - Oy));
