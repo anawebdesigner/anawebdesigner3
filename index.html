@@ -2857,6 +2857,13 @@
     @media (max-width: 760px) {
       summary { justify-content: space-between; }
     }
+
+    /* ===== MOBILE: halo fades out toward the top, darker at the bottom ===== */
+    @media (max-width: 760px) {
+      .beat::before { inset: -120px -7vw -90px; background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 22%, rgba(0,0,0,.62) 50%, rgba(0,0,0,.82) 100%); -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%); }
+      .beat h1, .beat h2, .beat .kick, .beat .lead, .beat[data-hero] .lead { text-shadow: 0 0 8px rgba(0,0,0,.75), 0 0 22px rgba(0,0,0,.55) !important; }
+      .beat .kick { font-size: calc(.85rem + 2px); }
+    }
   </style>
   <style id="assets">
     /* Embedded fonts */
