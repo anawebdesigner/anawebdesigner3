@@ -2846,6 +2846,17 @@
       .beat .kick, .beat .lead, .beat[data-hero] .lead { text-shadow: 0 0 6px rgba(0,0,0,1), 0 0 14px rgba(0,0,0,1), 0 0 28px rgba(0,0,0,.95), 0 0 50px rgba(0,0,0,.9), 0 0 84px rgba(0,0,0,.8), 0 0 120px rgba(0,0,0,.65) !important; }
       .st p { font-size: calc(.9rem - 3px); line-height: 1.8; }
     }
+
+    /* ===== MOBILE (light): soft halo via one gradient layer, no heavy blur ===== */
+    @media (max-width: 760px) {
+      .beat h1, .beat h2, .beat .kick, .beat .lead, .beat[data-hero] .lead { text-shadow: 0 0 10px rgba(0,0,0,.6) !important; -webkit-filter: none !important; filter: none !important; }
+      .beat::before { display: block !important; content: ""; position: absolute; z-index: -1; inset: -70px -9vw; pointer-events: none; background: radial-gradient(ellipse closest-side, rgba(0,0,0,.8) 0%, rgba(0,0,0,.62) 42%, rgba(0,0,0,.3) 74%, rgba(0,0,0,0) 100%); }
+      .st p { font-size: calc(.9rem - 1px); }
+    }
+
+    @media (max-width: 760px) {
+      summary { justify-content: space-between; }
+    }
   </style>
   <style id="assets">
     /* Embedded fonts */
