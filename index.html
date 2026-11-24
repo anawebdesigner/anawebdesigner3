@@ -2785,6 +2785,67 @@
       .st.js .w { transition: opacity .5s var(--ease) calc(min(var(--i, 0), 28) * 24ms); }
       .st.js.tb .w { opacity: 1; }
     }
+
+    /* ===== MOBILE REFINEMENTS (appended last) ===== */
+    .addr dt { display: flex; align-items: flex-start; gap: 7px; }
+    .addr dt svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+    .addr>div { grid-template-columns: 118px 1fr; }
+    @media (max-width: 760px) {
+      /* soft black shadow on hero title + final hero title */
+      .beat h1, #end h2 { text-shadow: 0 2px 12px rgba(0,0,0,.6), 0 0 3px rgba(0,0,0,.35); }
+      /* final hero: one-line title, block moved slightly down */
+      #end { top: calc((100svh + 100lvh) / 2 * .96 + 30px); }
+      #end h2 { font-size: 7.4vw; white-space: nowrap; line-height: 1.5; }
+      /* class cards: light extra overlay, bigger title, soft shadow */
+      .cls::before { background: linear-gradient(rgba(4,8,22,.2),rgba(4,8,22,.2)), linear-gradient(to top,rgba(4,8,22,.95) 0%,rgba(4,8,22,.84) 36%,rgba(4,8,22,.4) 68%,rgba(4,8,22,.18) 100%), var(--img) var(--pos,center)/cover no-repeat; }
+      .cls h3 { font-size: calc(1.2rem + 4px); }
+      .cls h3, .cls p, .cls .ch li { text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 1px 12px rgba(0,0,0,.5); }
+      /* FAQ: right-aligned questions */
+      details, summary, details p { text-align: right; direction: rtl; }
+      summary { justify-content: space-between; }
+      summary { flex-direction: row; }
+    }
+
+    /* ===== MOBILE REFINEMENTS 2 ===== */
+    @media (max-width: 760px) {
+      .beat h1, #end h2 { text-shadow: 0 2px 3px rgba(0,0,0,.55), 0 3px 18px rgba(0,0,0,.75), 0 0 36px rgba(0,0,0,.45) !important; }
+      .cls .tg, .cls .ch li { color: #f4ecd8; background: rgba(255,255,255,.1); border: 1px solid rgba(244,236,216,.28); border-radius: 99px; padding: 3px 12px; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 1; text-shadow: none; }
+      .cls:hover .tg { background: rgba(255,255,255,.1); color: #f4ecd8; }
+      .cls .ch { display: flex; gap: 8px; border-top: 0; margin-top: 0; padding-top: 0; position: relative; }
+      .cls .ch li+li::before { content: none; }
+      .cls .ch::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 1px; background: rgba(244,236,216,.22); }
+      .cls h3 { margin-bottom: 12px; }
+      .cls p { margin-top: 4px; margin-bottom: 26px; }
+      .cls .ch { padding-top: 16px; }
+    }
+
+    /* ===== MOBILE REFINEMENTS 3 ===== */
+    @media (max-width: 760px) {
+      .beat h1, .beat h2, .beat .kick, .beat .lead { text-shadow: 0 2px 3px rgba(0,0,0,.7), 0 3px 16px rgba(0,0,0,.85), 0 0 34px rgba(0,0,0,.6) !important; }
+      .beat h1, .beat h2 { -webkit-filter: drop-shadow(0 2px 8px rgba(0,0,0,.65)); filter: drop-shadow(0 2px 8px rgba(0,0,0,.65)); }
+      .cls .tg, .lite .cls .tg { background: #f4ecd8; color: #0b1d3f; border-color: #f4ecd8; -webkit-backdrop-filter: none; backdrop-filter: none; font-weight: 600; }
+      .cls:hover .tg { background: #f4ecd8; color: #0b1d3f; }
+      .cls h3 { font-size: calc(1.2rem + 7px); margin-top: 46px; margin-bottom: 14px; }
+      .cls p { margin-top: 10px; }
+    }
+
+    /* ===== MOBILE: diffuse dark halo behind hero text ===== */
+    @media (max-width: 760px) {
+      .beat h1, .beat h2, .beat .kick, .beat .lead { text-shadow: 0 0 22px rgba(0,0,0,.85), 0 0 46px rgba(0,0,0,.7), 0 0 80px rgba(0,0,0,.55) !important; }
+      .beat h1, .beat h2 { -webkit-filter: drop-shadow(0 0 28px rgba(0,0,0,.55)); filter: drop-shadow(0 0 28px rgba(0,0,0,.55)); }
+    }
+
+    /* ===== MOBILE: stronger diffuse halo ===== */
+    @media (max-width: 760px) {
+      .beat h1, .beat h2, .beat .kick, .beat .lead { text-shadow: 0 0 14px rgba(0,0,0,1), 0 0 30px rgba(0,0,0,.95), 0 0 56px rgba(0,0,0,.9), 0 0 90px rgba(0,0,0,.8), 0 0 130px rgba(0,0,0,.65) !important; }
+      .beat h1, .beat h2 { -webkit-filter: drop-shadow(0 0 22px rgba(0,0,0,.9)) drop-shadow(0 0 50px rgba(0,0,0,.7)); filter: drop-shadow(0 0 22px rgba(0,0,0,.9)) drop-shadow(0 0 50px rgba(0,0,0,.7)); }
+    }
+
+    /* ===== MOBILE: halo on kicks/leads + smaller step text ===== */
+    @media (max-width: 760px) {
+      .beat .kick, .beat .lead, .beat[data-hero] .lead { text-shadow: 0 0 6px rgba(0,0,0,1), 0 0 14px rgba(0,0,0,1), 0 0 28px rgba(0,0,0,.95), 0 0 50px rgba(0,0,0,.9), 0 0 84px rgba(0,0,0,.8), 0 0 120px rgba(0,0,0,.65) !important; }
+      .st p { font-size: calc(.9rem - 3px); line-height: 1.8; }
+    }
   </style>
   <style id="assets">
     /* Embedded fonts */
@@ -2912,7 +2973,7 @@
       <!-- Hero text 3 (final, with buttons) -->
       <section class="beat r" data-r="[2.08,2.4,9,9]" id="end">
         <span class="kick fd">اولین شب رصد</span>
-        <h2 data-split>اولین رصد خود را با ما آغاز کنید</h2>
+        <h2 data-split data-m="رصد خود را آغاز کنید">اولین رصد خود را با ما آغاز کنید</h2>
         <p class="lead fd">کلاس مناسب خود را انتخاب کنید یا پیش از ثبت&zwnj;نام، مشاوره&zwnj;ی رایگان بگیرید.</p>
         <div class="cta fd">
           <span class="magw"><a class="btn p mag" href="#classes">مشاهده&zwnj;ی کلاس&zwnj;ها<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2953,7 +3014,7 @@
               <circle class="f" cx="186" cy="56" r="3"/>
             </svg><span class="tg">مقدماتی</span>
             <h3>مبانی نجوم</h3>
-            <p>با صورت&zwnj;های فلکی، حرکت ماه و سیاره&zwnj;ها و نقشه&zwnj;ی آسمان از صفر آشنا می&zwnj;شوید و در پایان، آسمان شب را مستقل می&zwnj;خوانید. پیش&zwnj;زمینه لازم نیست.</p>
+            <p>با صورت&zwnj;های فلکی، حرکت ماه و سیاره&zwnj;ها و نقشه&zwnj;ی آسمان از صفر آشنا می&zwnj;شوید؛ پیش&zwnj;زمینه لازم نیست.</p>
             <ul class="ch">
               <li>۸ جلسه</li>
               <li>آنلاین و حضوری</li>
@@ -2967,7 +3028,7 @@
               <path d="M100 4v18M100 98v18M44 60h18M138 60h18"/>
             </svg><span class="tg">کارگاهی</span>
             <h3>کار با تلسکوپ</h3>
-            <p>انتخاب تلسکوپ مناسب، مونتاژ و تنظیم آن را به&zwnj;صورت عملی تمرین می&zwnj;کنید و در پایان دوره، بدون کمک مدرس زیر آسمان رصد می&zwnj;کنید.</p>
+            <p>انتخاب، مونتاژ و تنظیم تلسکوپ را عملی تمرین می&zwnj;کنید و در پایان، مستقل زیر آسمان رصد می&zwnj;کنید.</p>
             <ul class="ch">
               <li>۶ جلسه</li>
               <li>حضوری</li>
@@ -2980,7 +3041,7 @@
               <path d="M64 116A68 68 0 0 1 190 88"/>
             </svg><span class="tg">کارگاهی</span>
             <h3>عکاسی از آسمان شب</h3>
-            <p>ثبت تصویر ماه، راه شیری و سحابی&zwnj;ها با دوربین و مانت ردیاب؛ از تنظیمات عکاسی تا پردازش نهایی تصویر.</p>
+            <p>ثبت تصویر ماه، راه شیری و سحابی&zwnj;ها با دوربین و مانت ردیاب؛ از تنظیمات تا پردازش نهایی.</p>
             <ul class="ch">
               <li>۱۰ جلسه</li>
               <li>حضوری</li>
@@ -2996,7 +3057,7 @@
               <circle class="f" cx="152" cy="22" r="1.8"/>
             </svg><span class="tg">پیشرفته</span>
             <h3>رصد آسمان عمیق</h3>
-            <p>رصد و ثبت سحابی&zwnj;ها، خوشه&zwnj;های ستاره&zwnj;ای و کهکشان&zwnj;ها با تلسکوپ&zwnj;های بزرگ&zwnj;تر، همراه با برنامه&zwnj;ریزی شب رصد و ثبت منظم مشاهدات.</p>
+            <p>رصد و ثبت سحابی&zwnj;ها، خوشه&zwnj;های ستاره&zwnj;ای و کهکشان&zwnj;ها با تلسکوپ&zwnj;های بزرگ&zwnj;تر و برنامه&zwnj;ریزی شب رصد.</p>
             <ul class="ch">
               <li>۸ جلسه</li>
               <li>حضوری</li>
@@ -3120,15 +3181,15 @@
             <p class="sub rv">برای دریافت مشاوره&zwnj;ی حضوری و بازدید از محل کلاس&zwnj;ها، در ساعات پذیرش به آموزشگاه مراجعه کنید.</p>
             <dl class="addr rv">
               <div>
-                <dt>نشانی</dt>
+                <dt><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>نشانی</dt>
                 <dd>اصفهان، خیابان چهارباغ عباسی، نبش کوچه&zwnj;ی ۱۲، پلاک ۲۴</dd>
               </div>
               <div>
-                <dt>ساعات پذیرش</dt>
+                <dt><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>ساعات پذیرش</dt>
                 <dd>شنبه تا چهارشنبه، ساعت ۱۰ تا ۱۸</dd>
               </div>
               <div>
-                <dt>تلفن تماس</dt>
+                <dt><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>تلفن تماس</dt>
                 <dd>
                   <span dir="ltr">۰۳۱-۳۲۲۴۵۶۷۸</span>
                 </dd>
@@ -3313,7 +3374,7 @@
 
   /* --- Split headings into words so they can animate one by one --- */
   $$('[data-split]').forEach(el => {
-    el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="m"><span class="w">${w}</span></span>`).join(' ');
+    el.innerHTML = ((el.dataset.m && matchMedia('(max-width:760px)').matches) ? el.dataset.m : el.textContent).trim().split(/\s+/).map(w => `<span class="m"><span class="w">${w}</span></span>`).join(' ');
   });
   const beats = $$('.beat').map(el => ({ el, r: JSON.parse(el.dataset.r), hero: 'hero' in el.dataset, w: [...el.querySelectorAll('.w')], f: [...el.querySelectorAll('.fd')], c: el.querySelector('.count') }));
   beats.forEach(b => b.w.forEach((w, i) => w.style.setProperty('--i', i)));
