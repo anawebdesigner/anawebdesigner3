@@ -3247,6 +3247,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
+(function () {
 
   /*
     STATE & SMALL HELPERS
@@ -3256,7 +3257,8 @@
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), ez = t => t * t * (3 - 2 * t), lp = (a, b, t) => a + (b - a) * t;
   const RM = matchMedia('(prefers-reduced-motion:reduce)').matches, FINE = matchMedia('(hover:hover)').matches && !RM;
-  const lenis = (window.Lenis && !RM) ? new Lenis({ lerp: .09 }) : null; /* smooth scroll; lerp: lower = smoother/slower */
+  let lenis = null;
+  try { if (window.Lenis && !RM) lenis = new Lenis({ lerp: .09 }); } catch (err) { lenis = null; } /* smooth scroll; lerp: lower = smoother/slower */
 
   /*
     SCENES (one per hero image)
@@ -3822,6 +3824,7 @@
   size();
   requestAnimationFrame(frame);
 
+  })();
   </script>
 </body>
 </html>
