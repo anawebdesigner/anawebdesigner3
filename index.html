@@ -2864,6 +2864,11 @@
       .beat h1, .beat h2, .beat .kick, .beat .lead, .beat[data-hero] .lead { text-shadow: 0 0 8px rgba(0,0,0,.75), 0 0 22px rgba(0,0,0,.55) !important; }
       .beat .kick { font-size: calc(.85rem + 2px); }
     }
+
+    /* ===== MOBILE: halo reaches the screen edges (no side fade) ===== */
+    @media (max-width: 760px) {
+      .beat::before { inset-inline: -6vw; -webkit-mask-image: none; mask-image: none; }
+    }
   </style>
   <style id="assets">
     /* Embedded fonts */
