@@ -3258,7 +3258,7 @@
   const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), ez = t => t * t * (3 - 2 * t), lp = (a, b, t) => a + (b - a) * t;
   const RM = matchMedia('(prefers-reduced-motion:reduce)').matches, FINE = matchMedia('(hover:hover)').matches && !RM;
   let lenis = null;
-  try { if (window.Lenis && !RM) lenis = new Lenis({ lerp: .09 }); } catch (err) { lenis = null; } /* smooth scroll; lerp: lower = smoother/slower */
+  try { if (window.Lenis && !RM) lenis = new Lenis({ lerp: .18 }); } catch (err) { lenis = null; } 
 
   /*
     SCENES (one per hero image)
