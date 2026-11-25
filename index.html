@@ -1995,6 +1995,21 @@
       opacity: 1;
     }
 
+    /* navy header over the dark (sarmei) sections */
+    .nav::after {
+      transition: opacity .35s,background-color .35s,box-shadow .35s;
+    }
+
+    .nav.dk::before {
+      opacity: 0;
+    }
+
+    .nav.dk::after {
+      opacity: 1;
+      background: rgba(5,12,32,.96);
+      box-shadow: none;
+    }
+
     .nav .b2,
     .nav .btn,
     .burger {
@@ -2884,6 +2899,13 @@
     /* ===== MOBILE: halo extends past the bottom of the screen ===== */
     @media (max-width: 760px) {
       .beat::before { inset-block: -120px -70vh; background: linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,.3) 70px, rgba(0,0,0,.62) 160px, rgba(0,0,0,.82) 260px, rgba(0,0,0,.82) 100%); }
+    }
+
+    /* ===== MOBILE: dark gradient fixed to the hero stage itself (no per-text halo that moves) ===== */
+    @media (max-width: 760px) {
+      .beat::before { display: none !important; }
+      .stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,.86) 0%, rgba(0,0,0,.74) 34%, rgba(0,0,0,.42) 64%, rgba(0,0,0,.14) 86%, rgba(0,0,0,0) 100%); }
+      .stage .beat { z-index: 2; }
     }
   </style>
   <style id="assets">
@@ -3898,7 +3920,7 @@
   /* --- NAV TONE - light bar over the cream section --- */
   let crmT = 0, crmB = 0;
   function crmMeasure() { const r = crm.getBoundingClientRect(); crmT = r.top + scrollY; crmB = r.bottom + scrollY; navTone(); }
-  function navTone() { const y = scrollY; nav.classList.toggle('lt', crmT - y <= 58 && crmB - y >= -10); }
+  function navTone() { const y = scrollY; nav.classList.toggle('lt', crmT - y <= 58 && crmB - y >= -10); nav.classList.toggle('dk', crmB - y < -10); }
   addEventListener('scroll', navTone, { passive: true });
   addEventListener('resize', crmMeasure);
   addEventListener('load', crmMeasure);
