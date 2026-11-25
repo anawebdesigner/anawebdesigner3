@@ -2869,6 +2869,17 @@
     @media (max-width: 760px) {
       .beat::before { inset-inline: -6vw; -webkit-mask-image: none; mask-image: none; }
     }
+
+    /* ===== MOBILE: learning-path steps zig-zag + right-aligned; slightly shorter class cards ===== */
+    @media (max-width: 760px) {
+      .st { width: 76%; text-align: right; margin-inline-start: 0 !important; margin-inline-end: auto; }
+      .st:nth-child(even) { margin-inline-start: auto !important; margin-inline-end: 0; }
+      .st p { margin-inline: 0; }
+      .cls { min-height: 240px; padding-block: 18px; }
+      .cls h3 { margin-top: 32px; }
+      .cls p { margin-bottom: 20px; }
+      .cls .ch { padding-top: 12px; }
+    }
   </style>
   <style id="assets">
     /* Embedded fonts */
